@@ -1,4 +1,4 @@
-package main
+package meow_common
 
 import (
 	"os"
@@ -32,8 +32,4 @@ func WarpLogError(err error) zap.Field {
 
 func LogError(msg string, err error) {
 	Logger.Error(msg, WarpLogError(err))
-}
-
-func main() {
-
 }
