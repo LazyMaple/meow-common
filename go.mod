@@ -1,4 +1,4 @@
-module meow-common
+module github.com/LazyMaple/meow-common
 
 go 1.23.4
 

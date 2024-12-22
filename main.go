@@ -25,3 +25,7 @@ func LoadLog() *zap.Logger {
 	defer Logger.Sync()
 	return Logger
 }
+
+func main() {
+
+}
