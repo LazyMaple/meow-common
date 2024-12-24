@@ -9,6 +9,8 @@ import (
 
 	jsoniter "github.com/json-iterator/go"
 	"github.com/justincormack/go-memfd"
+	"github.com/minio/minio-go/v7"
+	"github.com/minio/minio-go/v7/pkg/credentials"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
@@ -16,6 +18,11 @@ import (
 var (
 	Logger *zap.Logger
 	json   = jsoniter.ConfigCompatibleWithStandardLibrary
+
+	ossAPI    = "https://s3.bitiful.net"
+	ossAK     = ""
+	ossSK     = ""
+	ossRegion = "cn-east-1"
 )
 
 func init() {
@@ -31,6 +38,30 @@ func loadLog() *zap.Logger {
 	Logger = zap.New(core)
 	defer Logger.Sync()
 	return Logger
+}
+
+func SetOSSAPI(s string) {
+	ossAPI = s
+}
+
+func SetOSSAK(s string) {
+	ossAK = s
+}
+
+func SetOSSSK(s string) {
+	ossSK = s
+}
+
+func SetOSSRegion(s string) {
+	ossRegion = s
+}
+
+func GetOSSClient() (*minio.Client, error) {
+	return minio.New(ossAPI, &minio.Options{
+		Creds:  credentials.NewStaticV4(ossAK, ossSK, ""),
+		Secure: true,
+		Region: ossRegion,
+	})
 }
 
 func WarpLogError(err error) zap.Field {
