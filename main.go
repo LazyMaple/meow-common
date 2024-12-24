@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/exec"
 
+	jsoniter "github.com/json-iterator/go"
 	"github.com/justincormack/go-memfd"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
@@ -14,13 +15,14 @@ import (
 
 var (
 	Logger *zap.Logger
+	json   = jsoniter.ConfigCompatibleWithStandardLibrary
 )
 
 func init() {
-	Logger = LoadLog()
+	Logger = loadLog()
 }
 
-func LoadLog() *zap.Logger {
+func loadLog() *zap.Logger {
 	core := zapcore.NewCore(
 		zapcore.NewJSONEncoder(zap.NewProductionEncoderConfig()),
 		zapcore.AddSync(os.Stdout),
@@ -60,4 +62,12 @@ func GetCommand(fs embed.FS, filename string, args ...string) (*exec.Cmd, func()
 
 	cmd := exec.Command(fmt.Sprintf("/proc/self/fd/%d", mfd.Fd()), args...)
 	return cmd, mfd.Close, nil
+}
+
+func Marshal(v interface{}) ([]byte, error) {
+	return json.Marshal(v)
+}
+
+func Unmarshal(data []byte, v interface{}) error {
+	return json.Unmarshal(data, v)
 }
