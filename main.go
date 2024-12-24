@@ -19,7 +19,7 @@ var (
 	Logger *zap.Logger
 	json   = jsoniter.ConfigCompatibleWithStandardLibrary
 
-	ossAPI    = "https://s3.bitiful.net"
+	ossAPI    = "s3.bitiful.net"
 	ossAK     = ""
 	ossSK     = ""
 	ossRegion = "cn-east-1"
