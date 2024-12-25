@@ -102,3 +102,20 @@ func Marshal(v interface{}) ([]byte, error) {
 func Unmarshal(data []byte, v interface{}) error {
 	return json.Unmarshal(data, v)
 }
+
+func Unique[T comparable](slice []T) []T {
+	result := make([]T, 0, len(slice))
+	seen := make(map[T]struct{}, len(slice))
+
+	for i := range slice {
+		if _, ok := seen[slice[i]]; ok {
+			continue
+		}
+
+		seen[slice[i]] = struct{}{}
+
+		result = append(result, slice[i])
+	}
+
+	return result
+}
