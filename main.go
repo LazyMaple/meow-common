@@ -68,6 +68,10 @@ func WarpLogError(err error) zap.Field {
 	return zap.Error(err)
 }
 
+func WarpLogString(k, v string) zap.Field {
+	return zap.String(k, v)
+}
+
 func LogError(msg string, err error) {
 	Logger.Error(msg, WarpLogError(err))
 }
